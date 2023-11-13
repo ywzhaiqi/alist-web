@@ -14,7 +14,7 @@ import { Col, cols, ListItem } from "./ListItem"
 
 const ListLayout = () => {
   const t = useT()
-  const [orderBy, setOrderBy] = createSignal<OrderBy>()
+  const [orderBy, setOrderBy] = createSignal<OrderBy>("name")
   const [reverse, setReverse] = createSignal(false)
   createEffect(() => {
     if (orderBy()) {
