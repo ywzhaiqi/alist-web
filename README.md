@@ -1,3 +1,8 @@
+## 修改说明
+
+- 默认按文件名排序
+- 预览页面 Add 播放列表
+
 ## Usage
 
 Those templates dependencies are maintained via [pnpm](https://pnpm.io) via `pnpm up -Lri`.
