@@ -1,5 +1,5 @@
 import { objStore, selectedObjs, State, me } from "~/store"
-import { Obj } from "~/types"
+import { Obj, ObjType } from "~/types"
 import { api, encodePath, pathDir, pathJoin, standardizePath } from "~/utils"
 import { useRouter, useUtil } from "."
 
@@ -52,6 +52,27 @@ export const useLink = () => {
     },
     currentObjLink: (encodeAll?: boolean) => {
       return rawLink(objStore.obj, encodeAll)
+    },
+    createPlsLink(startName?: string): string {
+      let videos = objStore.objs.filter((obj) => obj.type === ObjType.VIDEO)
+      if (videos.length === 0) {
+        videos = [objStore.obj]
+      }
+
+      if (startName) {
+        const startIndex = videos.findIndex((v) => v.name === startName)
+        if (startIndex !== -1) {
+          videos = videos.slice(startIndex)
+        }
+      }
+
+      const text = `[playlist]
+NumberOfEntries=${videos.length}
+${videos.map((v, i) => `File${i + 1}=${rawLink(v, true)}`).join("\n")}`
+
+      const textBlob = new Blob([text], { type: "text/plain;charset=utf-8" })
+      const url = URL.createObjectURL(textBlob)
+      return url
     },
   }
 }

@@ -6,7 +6,7 @@ import { operations } from "../toolbar/operations"
 import { For } from "solid-js"
 import { bus, convertURL, notify } from "~/utils"
 import { ObjType, UserMethods, UserPermissions } from "~/types"
-import { getSettingBool, me } from "~/store"
+import { getSettingBool, me, objStore } from "~/store"
 import { players } from "../previews/video_box"
 import { BsPlayCircleFill } from "solid-icons/bs"
 
@@ -33,7 +33,7 @@ export const ContextMenu = () => {
   const canPackageDownload = () => {
     return UserMethods.is_admin(me()) || getSettingBool("package_download")
   }
-  const { rawLink } = useLink()
+  const { rawLink, createPlsLink } = useLink()
   return (
     <Menu
       id={1}
@@ -96,6 +96,18 @@ export const ContextMenu = () => {
           {(player) => (
             <Item
               onClick={({ props }) => {
+                if (player.pls) {
+                  const url = createPlsLink(props.name)
+                  var link = document.createElement("a")
+                  link.href = url
+                  link.download = `${props.name.slice(0, 10)}...等播放列表.pls`
+
+                  document.body.appendChild(link)
+                  link.click()
+                  URL.revokeObjectURL(url)
+                  return
+                }
+
                 const href = convertURL(player.scheme, {
                   raw_url: "",
                   name: props.name,

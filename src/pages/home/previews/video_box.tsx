@@ -47,21 +47,12 @@ export const players: {
   },
 ]
 
-function createPlsLink(videos: StoreObj[], rawLink: Function): string {
-  const text = `[playlist]\nNumberOfEntries=${videos.length}
-${videos.map((v, i) => `File${i + 1}=${rawLink(v, true)}`).join("\n")}`
-
-  const textBlob = new Blob([text], { type: "text/plain;charset=utf-8" })
-  const url = URL.createObjectURL(textBlob)
-  return url
-}
-
 export const VideoBox = (props: {
   children: JSXElement
   onAutoNextChange: (v: boolean) => void
 }) => {
   const { replace } = useRouter()
-  const { currentObjLink, rawLink } = useLink()
+  const { currentObjLink, createPlsLink } = useLink()
   let videos = objStore.objs.filter((obj) => obj.type === ObjType.VIDEO)
   if (videos.length === 0) {
     videos = [objStore.obj]
@@ -108,14 +99,18 @@ export const VideoBox = (props: {
                   // external
                   href={
                     item.pls
-                      ? createPlsLink(videos, rawLink)
+                      ? createPlsLink()
                       : convertURL(item.scheme, {
                           raw_url: objStore.raw_url,
                           name: objStore.obj.name,
                           d_url: currentObjLink(true),
                         })
                   }
-                  download={item.pls ? "alist播放列表.pls" : ""}
+                  download={
+                    item.pls
+                      ? `${objStore.obj.name.slice(0, 10)}...等播放列表.pls`
+                      : ""
+                  }
                 >
                   <Image
                     m="0 auto"
