@@ -9,6 +9,7 @@ import { type Option } from "artplayer/types/option"
 import artplayerPluginDanmuku from "artplayer-plugin-danmuku"
 import flvjs from "flv.js"
 import Hls from "hls.js"
+import { useDropZone } from "solidjs-use"
 import { currentLang } from "~/app/i18n"
 import { VideoBox } from "./video_box"
 
@@ -182,10 +183,28 @@ const Preview = () => {
     player?.destroy()
   })
   const [autoNext, setAutoNext] = createSignal()
+
+  const [dropZoneRef, setDropZoneRef] = createSignal<HTMLDivElement>()
+  const { isOverDropZone } = useDropZone(dropZoneRef, onDrop)
+
+  function onDrop(files: File[] | null) {
+    if (!files) return
+    const file = files[0]
+
+    if (!file.name.match(/\.(srt|ass|vtt)$/)) return
+
+    const url = URL.createObjectURL(file)
+    player.subtitle.switch(url, {
+      type: ext(file.name),
+    })
+  }
+
   return (
-    <VideoBox onAutoNextChange={setAutoNext}>
-      <Box w="$full" h="60vh" id="video-player" />
-    </VideoBox>
+    <Box ref={setDropZoneRef} w="$full">
+      <VideoBox onAutoNextChange={setAutoNext}>
+        <Box w="$full" h="60vh" id="video-player" />
+      </VideoBox>
+    </Box>
   )
 }
 

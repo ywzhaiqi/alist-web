@@ -98,6 +98,9 @@ dependencies:
   solid-transition-group:
     specifier: ^0.0.12
     version: 0.0.12(solid-js@1.4.8)
+  solidjs-use:
+    specifier: ^2.3.0
+    version: 2.3.0
   streamsaver:
     specifier: ^2.0.6
     version: 2.0.6
@@ -703,6 +706,16 @@ packages:
       solid-js: 1.4.8
     dev: false
 
+  /@solidjs-use/shared@2.3.0:
+    resolution: {integrity: sha512-xuPNzZ9fwigkmYXTO+a8kaT45XQCPt6jVlyiDDYCD9NRZheRJOZWiUcVjYHzjececbWTctcY8NFdsXVyxARHKg==}
+    dependencies:
+      '@solidjs-use/solid-to-vue': 2.3.0
+    dev: false
+
+  /@solidjs-use/solid-to-vue@2.3.0:
+    resolution: {integrity: sha512-I2onRwzdYl2eq20M3hcTkVIeYq4hNoBpHvRJB9yzoyXRDSyp7R2glIbvdBzpsXqnTvX7HJhB2KePfxYXFvyJxw==}
+    dev: false
+
   /@stitches/core@1.2.8:
     resolution: {integrity: sha512-Gfkvwk9o9kE9r9XNBmJRfV8zONvXThnm1tcuojL04Uy5uRyqg93DC83lDebl0rocZCfKSjUv+fWYtMQmEDJldg==}
     dev: false
@@ -777,6 +790,10 @@ packages:
 
   /@types/unist@2.0.6:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
+    dev: false
+
+  /@types/web-bluetooth@0.0.16:
+    resolution: {integrity: sha512-oh8q2Zc32S6gd/j50GowEjKLoOVOwHP/bWVjKJInBwQqdOYMdPrf1oVlelTlyfFK3CKxL1uahMDAr+vy8T7yMQ==}
     dev: false
 
   /@vitejs/plugin-legacy@2.0.1(terser@5.14.2)(vite@3.0.8):
@@ -2807,6 +2824,13 @@ packages:
       solid-js: ^1.0.0
     dependencies:
       solid-js: 1.4.8
+    dev: false
+
+  /solidjs-use@2.3.0:
+    resolution: {integrity: sha512-ZyH2jiUSQU+5S5vd8zyvqz9X2ikhMjJhDeh/TjRzjLDJlZ1RuZaMxdM+jGsrJxo3X/xBW9kDpYNONXs6wYrQCQ==}
+    dependencies:
+      '@solidjs-use/shared': 2.3.0
+      '@types/web-bluetooth': 0.0.16
     dev: false
 
   /source-map-js@1.0.2:
