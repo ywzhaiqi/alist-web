@@ -11,14 +11,18 @@ import {
 } from "~/store"
 import { OrderBy } from "~/store"
 import { Col, cols, ListItem } from "./ListItem"
+import { useLocalStorage } from "solidjs-use"
 
 const ListLayout = () => {
   const t = useT()
-  const [orderBy, setOrderBy] = createSignal<OrderBy>("name")
-  const [reverse, setReverse] = createSignal(false)
+  const [state, setState] = useLocalStorage("list-order", {
+    orderBy: "",
+    reverse: false,
+  })
+
   createEffect(() => {
-    if (orderBy()) {
-      sortObjs(orderBy()!, reverse())
+    if (state().orderBy) {
+      sortObjs(state().orderBy as OrderBy, state().reverse)
     }
   })
   const itemProps = (col: Col) => {
@@ -29,16 +33,24 @@ const ListLayout = () => {
       textAlign: col.textAlign as any,
       cursor: "pointer",
       onClick: () => {
-        if (col.name === orderBy()) {
-          setReverse(!reverse())
+        if (col.name === state().orderBy) {
+          setState({
+            orderBy: col.name as OrderBy,
+            reverse: !state().reverse,
+          })
         } else {
           batch(() => {
-            setOrderBy(col.name as OrderBy)
-            setReverse(false)
+            setState({
+              orderBy: col.name as OrderBy,
+              reverse: false,
+            })
           })
         }
       },
     }
+  }
+  const orderSymbol = (col: Col) => {
+    return state().orderBy == col.name ? (state().reverse ? "↑" : "↓") : ""
   }
   return (
     <VStack class="list" w="$full" spacing="$1">
@@ -53,17 +65,19 @@ const ListLayout = () => {
               }}
             />
           </Show>
-          <Text {...itemProps(cols[0])}>{t(`home.obj.${cols[0].name}`)}</Text>
+          <Text {...itemProps(cols[0])}>
+            {orderSymbol(cols[0]) + t(`home.obj.${cols[0].name}`)}
+          </Text>
         </HStack>
         <Text w={cols[1].w} {...itemProps(cols[1])}>
-          {t(`home.obj.${cols[1].name}`)}
+          {orderSymbol(cols[1]) + t(`home.obj.${cols[1].name}`)}
         </Text>
         <Text
           w={cols[2].w}
           {...itemProps(cols[2])}
           display={{ "@initial": "none", "@md": "inline" }}
         >
-          {t(`home.obj.${cols[2].name}`)}
+          {orderSymbol(cols[2]) + t(`home.obj.${cols[2].name}`)}
         </Text>
       </HStack>
       <For each={objStore.objs}>
