@@ -9,7 +9,7 @@ import artplayerPluginDanmuku from "artplayer-plugin-danmuku"
 import Hls from "hls.js"
 import { currentLang } from "~/app/i18n"
 import { VideoBox } from "./video_box"
-import { useDropZone } from "solidjs-use"
+import { useDropZone, useObjectUrl } from "solidjs-use"
 
 export interface Data {
   drive_id: string
@@ -190,6 +190,8 @@ const Preview = () => {
 
   const [dropZoneRef, setDropZoneRef] = createSignal<HTMLDivElement>()
   const { isOverDropZone } = useDropZone(dropZoneRef, onDrop)
+  const [file, setFile] = createSignal<File | undefined>()
+  const subtitleUrl = useObjectUrl(file)
 
   function onDrop(files: File[] | null) {
     if (!files) return
@@ -197,8 +199,8 @@ const Preview = () => {
 
     if (!file.name.match(/\.(srt|ass|vtt)$/)) return
 
-    const url = URL.createObjectURL(file)
-    player.subtitle.switch(url, {
+    setFile(file)
+    player.subtitle.switch(subtitleUrl()!, {
       type: ext(file.name),
     })
   }
