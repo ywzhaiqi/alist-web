@@ -95,14 +95,19 @@ export type OrderBy = "name" | "size" | "modified"
 
 export const sortObjs = (orderBy: OrderBy, reverse?: boolean) => {
   log("sort:", orderBy, reverse)
-  setObjStore(
-    "objs",
-    produce((objs) =>
-      objs.sort((a, b) => {
+  setObjStore("objs", (objs) => {
+    const dirObjs = objs
+      .filter((obj) => obj.is_dir)
+      .sort((a, b) => {
         return (reverse ? -1 : 1) * naturalSort(a[orderBy], b[orderBy])
-      }),
-    ),
-  )
+      })
+    const fileObjs = objs
+      .filter((obj) => !obj.is_dir)
+      .sort((a, b) => {
+        return (reverse ? -1 : 1) * naturalSort(a[orderBy], b[orderBy])
+      })
+    return [...dirObjs, ...fileObjs]
+  })
 }
 
 export const appendObjs = (objs: Obj[]) => {
