@@ -9,7 +9,7 @@ import artplayerPluginDanmuku from "artplayer-plugin-danmuku"
 import Hls from "hls.js"
 import { currentLang } from "~/app/i18n"
 import { VideoBox } from "./video_box"
-import { useDropZone, useObjectUrl } from "solidjs-use"
+import { useDropZone, useLocalStorage, useObjectUrl } from "solidjs-use"
 
 export interface Data {
   drive_id: string
@@ -42,6 +42,12 @@ export interface Meta {
 const Preview = () => {
   const { replace, pathname } = useRouter()
   const { proxyLink } = useLink()
+  const [state, setState] = useLocalStorage("aliyun_video", {
+    quality: {
+      default: -1,
+    },
+  })
+
   let videos = objStore.objs.filter((obj) => obj.type === ObjType.VIDEO)
   if (videos.length === 0) {
     videos = [objStore.obj]
@@ -160,11 +166,15 @@ const Preview = () => {
         return
       }
       option.url = list[list.length - 1].url
+      const defaultIndex =
+        state().quality.default >= 0 && state().quality.default < list.length
+          ? state().quality.default
+          : list.length - 1
       option.quality = list.map((item, i) => {
         return {
           html: item.template_id,
           url: item.url,
-          default: i === list.length - 1,
+          default: i === defaultIndex,
         }
       })
       player = new Artplayer(option)
@@ -181,6 +191,19 @@ const Preview = () => {
           player.subtitle.url = proxyLink(subtitle, true)
         })
       }
+      // 保存 quality
+      player.on("video:loadedmetadata", () => {
+        const qualityOption = player.option.quality
+        if (qualityOption) {
+          const qualityHtml = player.query(".art-selector-value")?.textContent
+          const newIndex = qualityOption.findIndex(
+            (item) => item.html === qualityHtml,
+          )
+          if (newIndex != state().quality.default) {
+            setState({ quality: { default: newIndex } })
+          }
+        }
+      })
     })
   })
   onCleanup(() => {
