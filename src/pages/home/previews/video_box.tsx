@@ -10,8 +10,8 @@ import {
 import { For, JSXElement } from "solid-js"
 import { useRouter, useLink, useT } from "~/hooks"
 import { objStore } from "~/store"
-import { ObjType, StoreObj } from "~/types"
-import { convertURL } from "~/utils"
+import { ObjType } from "~/types"
+import { convertURL, cutString } from "~/utils"
 import Artplayer from "artplayer"
 import { SelectWrapper } from "~/components"
 
@@ -108,7 +108,7 @@ export const VideoBox = (props: {
                   }
                   download={
                     item.pls
-                      ? `${objStore.obj.name.slice(0, 10)}...等播放列表.pls`
+                      ? `${cutString(objStore.obj.name, 20)}...等播放列表.pls`
                       : ""
                   }
                 >

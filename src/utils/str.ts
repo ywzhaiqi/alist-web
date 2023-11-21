@@ -127,3 +127,21 @@ export const decodeText = (data: BufferSource, encoding?: string) => {
 //   const data = textEncoder.encode(text)
 //   return data
 // }
+
+// 截取字符串长度，对中文特别处理
+export const cutString = function (str: string, length: number) {
+  let count = 0
+  let result = ""
+  for (let i = 0; i < str.length; i++) {
+    if (str.charAt(i).match(/[\u4e00-\u9fa5]/)) {
+      count += 2
+    } else {
+      count += 1
+    }
+    if (count > length) {
+      break
+    }
+    result += str.charAt(i)
+  }
+  return result
+}

@@ -4,7 +4,7 @@ import "solid-contextmenu/dist/style.css"
 import { HStack, Icon, Text, useColorMode, Image } from "@hope-ui/solid"
 import { operations } from "../toolbar/operations"
 import { For } from "solid-js"
-import { bus, convertURL, notify } from "~/utils"
+import { bus, convertURL, cutString, notify } from "~/utils"
 import { ObjType, UserMethods, UserPermissions } from "~/types"
 import { getSettingBool, me, objStore } from "~/store"
 import { players } from "../previews/video_box"
@@ -100,7 +100,10 @@ export const ContextMenu = () => {
                   const url = createPlsLink(props.name)
                   var link = document.createElement("a")
                   link.href = url
-                  link.download = `${props.name.slice(0, 10)}...等播放列表.pls`
+                  link.download = `${cutString(
+                    props.name,
+                    20,
+                  )}...等播放列表.pls`
 
                   document.body.appendChild(link)
                   link.click()
