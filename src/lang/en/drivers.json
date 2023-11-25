@@ -256,6 +256,13 @@
     "root_folder_path": "Root folder path",
     "surl": "Surl"
   },
+  "ChaoXingGroupDrive": {
+    "bbsid": "Bbsid",
+    "cookie": "Cookie",
+    "password": "Password",
+    "root_folder_id": "Root folder id",
+    "user_name": "User name"
+  },
   "Cloudreve": {
     "address": "Address",
     "cookie": "Cookie",
@@ -292,6 +299,8 @@
     "remote_path-tips": "This is where the encrypted data stores",
     "salt": "Salt",
     "salt-tips": "If you don't know what is salt, treat it as a second password. Optional but recommended",
+    "show_hidden": "Show hidden",
+    "show_hidden-tips": "show hidden directories and files",
     "thumbnail": "Thumbnail",
     "thumbnail-tips": "enable thumbnail which pre-generated under .thumbnails folder"
   },
@@ -629,6 +638,23 @@
     "url_structure": "Url structure",
     "url_structure-tips": "structure:FolderName:\n  [FileName:][FileSize:][Modified:]Url"
   },
+  "VTencent": {
+    "cookie": "Cookie",
+    "order_by": "Order by",
+    "order_bys": {
+      "CreatTime": "CreatTime",
+      "Name": "Name",
+      "Size": "Size",
+      "UpdateTime": "UpdateTime"
+    },
+    "order_direction": "Order direction",
+    "order_directions": {
+      "Asc": "Asc",
+      "Desc": "Desc"
+    },
+    "root_folder_id": "Root folder id",
+    "tf_uid": "Tf uid"
+  },
   "Virtual": {
     "max_file_size": "Max file size",
     "min_file_size": "Min file size",
@@ -722,6 +748,7 @@
     "BaiduNetdisk": {},
     "BaiduPhoto": {},
     "BaiduShare": {},
+    "ChaoXingGroupDrive": {},
     "Cloudreve": {},
     "Crypt": {},
     "Dropbox": {},
@@ -753,6 +780,7 @@
     "UC": {},
     "USS": {},
     "UrlTree": {},
+    "VTencent": {},
     "Virtual": {},
     "WebDav": {},
     "WeiYun": {},
@@ -777,6 +805,7 @@
     "BaiduNetdisk": "BaiduNetdisk",
     "BaiduPhoto": "BaiduPhoto",
     "BaiduShare": "BaiduShare",
+    "ChaoXingGroupDrive": "ChaoXingGroupDrive",
     "Cloudreve": "Cloudreve",
     "Crypt": "Crypt",
     "Dropbox": "Dropbox",
@@ -806,6 +835,7 @@
     "UC": "UC",
     "USS": "USS",
     "UrlTree": "UrlTree",
+    "VTencent": "VTencent",
     "Virtual": "Virtual",
     "WebDav": "WebDav",
     "WeiYun": "WeiYun",

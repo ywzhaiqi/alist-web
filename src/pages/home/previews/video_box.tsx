@@ -29,6 +29,16 @@ export const players: {
   { icon: "vlc", name: "VLC", scheme: "vlc://$durl" },
   { icon: "nplayer", name: "nPlayer", scheme: "nplayer-$durl" },
   {
+    icon: "omniplayer",
+    name: "OmniPlayer",
+    scheme: "omniplayer://weblink?url=$durl",
+  },
+  {
+    icon: "figplayer",
+    name: "Fig Player",
+    scheme: "figplayer://weblink?url=$durl",
+  },
+  {
     icon: "infuse",
     name: "Infuse",
     scheme: "infuse://x-callback-url/play?url=$durl",
