@@ -14,6 +14,7 @@ import { ObjType } from "~/types"
 import { convertURL, cutString } from "~/utils"
 import Artplayer from "artplayer"
 import { SelectWrapper } from "~/components"
+import { isMac } from "~/utils/compatibility"
 
 Artplayer.PLAYBACK_RATE = [0.5, 0.75, 1, 1.25, 1.5, 2, 3, 4]
 
@@ -22,8 +23,9 @@ export const players: {
   name: string
   scheme: string
   pls?: boolean
+  os?: "mac" | "win" | "linux" | "android" | "ios" | "other"
 }[] = [
-  { icon: "iina", name: "IINA", scheme: "iina://weblink?url=$durl" },
+  { icon: "iina", name: "IINA", scheme: "iina://weblink?url=$durl", os: "mac" },
   { icon: "potplayer", name: "PotPlayer", scheme: "potplayer://$durl" },
   { icon: "potplayer", name: "播放列表", pls: true, scheme: "" },
   { icon: "vlc", name: "VLC", scheme: "vlc://$durl" },
@@ -32,11 +34,13 @@ export const players: {
     icon: "omniplayer",
     name: "OmniPlayer",
     scheme: "omniplayer://weblink?url=$durl",
+    os: "mac",
   },
   {
     icon: "figplayer",
     name: "Fig Player",
     scheme: "figplayer://weblink?url=$durl",
+    os: "mac",
   },
   {
     icon: "infuse",
@@ -56,6 +60,11 @@ export const players: {
       "intent:$durl#Intent;package=com.mxtech.videoplayer.pro;S.title=$name;end",
   },
 ]
+
+// 在非 mac 平台排除 mac 播放器
+export const playersFiltered = players.filter((p) =>
+  !isMac ? p.os !== "mac" : true,
+)
 
 export const VideoBox = (props: {
   children: JSXElement
@@ -101,7 +110,7 @@ export const VideoBox = (props: {
         </Switch>
       </HStack>
       <Flex wrap="wrap" gap="$1" justifyContent="center">
-        <For each={players}>
+        <For each={playersFiltered}>
           {(item) => {
             return (
               <Tooltip placement="top" withArrow label={item.name}>

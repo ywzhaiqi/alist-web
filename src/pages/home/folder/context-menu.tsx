@@ -7,7 +7,7 @@ import { For } from "solid-js"
 import { bus, convertURL, cutString, notify } from "~/utils"
 import { ObjType, UserMethods, UserPermissions } from "~/types"
 import { getSettingBool, me, objStore } from "~/store"
-import { players } from "../previews/video_box"
+import { playersFiltered } from "../previews/video_box"
 import { BsPlayCircleFill } from "solid-icons/bs"
 
 const ItemContent = (props: { name: string }) => {
@@ -92,7 +92,7 @@ export const ContextMenu = () => {
           </HStack>
         }
       >
-        <For each={players}>
+        <For each={playersFiltered}>
           {(player) => (
             <Item
               onClick={({ props }) => {
