@@ -9,7 +9,6 @@ import {
   RenameObj,
 } from "~/types"
 import { r } from "."
-import { handleFsList } from "./my"
 
 export const fsGet = (
   path: string = "/",
@@ -28,21 +27,18 @@ export const fsList = (
   refresh = false,
   cancelToken?: CancelToken,
 ): Promise<FsListResp> => {
-  return handleFsList(
-    path,
-    r.post(
-      "/fs/list",
-      {
-        path,
-        password,
-        page,
-        per_page,
-        refresh,
-      },
-      {
-        cancelToken: cancelToken,
-      },
-    ),
+  return r.post(
+    "/fs/list",
+    {
+      path,
+      password,
+      page,
+      per_page,
+      refresh,
+    },
+    {
+      cancelToken: cancelToken,
+    },
   )
 }
 
