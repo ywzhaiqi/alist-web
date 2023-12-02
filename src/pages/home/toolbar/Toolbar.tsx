@@ -11,6 +11,7 @@ import { RemoveEmptyDirectory } from "./RemoveEmptyDirectory"
 import { BatchRename } from "./BatchRename"
 import { OfflineDownload } from "./OfflineDownload"
 import { PackageDownloadModal } from "./Download"
+import { AttributeModal } from "./Attribute"
 import { lazy } from "solid-js"
 import { ModalWrapper } from "./ModalWrapper"
 import { LocalSettings } from "./LocalSettings"
@@ -30,6 +31,7 @@ export const Modal = () => {
       <BatchRename />
       <OfflineDownload />
       <PackageDownloadModal />
+      <AttributeModal />
       <ModalWrapper name="upload" title="home.toolbar.upload">
         <Upload />
       </ModalWrapper>

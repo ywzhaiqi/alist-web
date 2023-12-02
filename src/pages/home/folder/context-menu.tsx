@@ -40,7 +40,7 @@ export const ContextMenu = () => {
       animation="scale"
       theme={colorMode() !== "dark" ? "light" : "dark"}
     >
-      <For each={["rename", "move", "copy", "delete"]}>
+      <For each={["rename", "move", "copy", "delete", "attribute"]}>
         {(name) => (
           <Item
             hidden={() => {
