@@ -207,7 +207,7 @@ const Preview = () => {
       // add next button
       const index = videos.findIndex((f) => f.name === objStore.obj.name)
       const nextIndex = index + 1
-      if (nextIndex < videos.length - 1) {
+      if (nextIndex <= videos.length - 1) {
         const toNextVideo = () => {
           replace(videos[nextIndex].name)
         }
