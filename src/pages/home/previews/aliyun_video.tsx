@@ -213,14 +213,18 @@ const Preview = () => {
         }
         player.controls.add({
           name: "next",
-          index: 1,
-          position: "right",
-          html: "<span>下一个</span>",
-          tooltip: "播放下一个视频",
-          click: () => toNextVideo,
+          index: 11,
+          position: "left",
+          html: `<i class="art-icon art-icon-play hint--rounded hint--top" aria-label="下一个" style="display: flex;">
+            <svg xmlns="http://www.w3.org/2000/svg"  height="22" width="22">
+              <path d="M16 5a1 1 0 0 0-1 1v4.615a1.431 1.431 0 0 0-.615-.829L7.21 5.23A1.439 1.439 0 0 0 5 6.445v9.11a1.44 1.44 0 0 0 2.21 1.215l7.175-4.555a1.436 1.436 0 0 0 .616-.828V16a1 1 0 0 0 2 0V6C17 5.448 16.552 5 16 5z"></path>
+            </svg>
+          </i>`,
+          tooltip: "下一个 (])",
+          click: toNextVideo,
         })
-        const pageDown_keyCode = 34
-        player.hotkey.add(pageDown_keyCode, toNextVideo)
+        const next_keyCode = 221 // ]
+        player.hotkey.add(next_keyCode, toNextVideo)
       }
     })
   })
