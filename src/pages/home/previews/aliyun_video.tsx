@@ -204,6 +204,21 @@ const Preview = () => {
           }
         }
       })
+      // add next button
+      const index = videos.findIndex((f) => f.name === objStore.obj.name)
+      const nextIndex = index + 1
+      if (nextIndex < videos.length - 1) {
+        player.controls.add({
+          name: "next",
+          index: 1,
+          position: "right",
+          html: "<span>下一个</span>",
+          tooltip: "播放下一个视频",
+          click: () => {
+            replace(videos[nextIndex].name)
+          },
+        })
+      }
     })
   })
   onCleanup(() => {
