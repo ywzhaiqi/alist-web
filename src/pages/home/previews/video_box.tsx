@@ -27,7 +27,7 @@ export const players: {
 }[] = [
   { icon: "iina", name: "IINA", scheme: "iina://weblink?url=$durl", os: "mac" },
   { icon: "potplayer", name: "PotPlayer", scheme: "potplayer://$durl" },
-  { icon: "potplayer", name: "播放列表", pls: true, scheme: "" },
+  { icon: "potplayer_pls", name: "播放列表", pls: true, scheme: "" },
   { icon: "vlc", name: "VLC", scheme: "vlc://$durl" },
   { icon: "nplayer", name: "nPlayer", scheme: "nplayer-$durl" },
   {
@@ -110,7 +110,12 @@ export const VideoBox = (props: {
         </Switch>
       </HStack>
       <Flex wrap="wrap" gap="$1" justifyContent="center">
-        <For each={playersFiltered}>
+        {/* 单视频 无播放列表 */}
+        <For
+          each={playersFiltered.filter((i) =>
+            i.pls ? videos.length > 1 : true,
+          )}
+        >
           {(item) => {
             return (
               <Tooltip placement="top" withArrow label={item.name}>
