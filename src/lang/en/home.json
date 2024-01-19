@@ -79,7 +79,9 @@
     "regex_rename_preview_old_name": "Old Name",
     "regex_rename_preview_new_name": "New Name",
     "regular_rename": "Regular expression file renaming. Input the source file name regular expression on the first line, and input the new file name regular expression on the second line.",
-    "sequential_renaming_desc": "The new file name will have a numerical starting value appended to it, and it will be displayed sequentially by adding 1 to the starting value. Enter the new file name on the first line and the starting value on the second line."
+    "sequential_renaming_desc": "The new file name will have a numerical starting value appended to it, and it will be displayed sequentially by adding 1 to the starting value. Enter the new file name on the first line and the starting value on the second line.",
+    "text_editor_rename": "自定义",
+    "text_editor_rename_desc": "批量重命名，文本编辑，支持外部编辑器"
   },
   "upload": {
     "add_as_task": "Add as task",

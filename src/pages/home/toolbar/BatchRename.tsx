@@ -13,6 +13,7 @@ import {
   Radio,
   RadioGroup,
   Input,
+  Textarea,
 } from "@hope-ui/solid"
 import { useFetch, usePath, useRouter, useT } from "~/hooks"
 import {
@@ -68,10 +69,10 @@ export const BatchRename = () => {
       notify.warning(t("global.empty_input"))
       return
     }
-    const replaceRegexp = new RegExp(srcName(), "g")
 
     let matchNames: RenameObj[]
     if (type() === "1") {
+      const replaceRegexp = new RegExp(srcName(), "g")
       matchNames = objStore.objs
         .filter((obj) => obj.name.match(srcName()))
         .map((obj) => {
@@ -81,7 +82,7 @@ export const BatchRename = () => {
           }
           return renameObj
         })
-    } else {
+    } else if (type() === "2") {
       let tempNum = newName()
       matchNames = objStore.objs.map((obj) => {
         let suffix = ""
@@ -99,6 +100,19 @@ export const BatchRename = () => {
           .padStart(tempNum.length, "0")
         return renameObj
       })
+    } else if (type() === "3") {
+      const newNames = newName()
+        .split("\n")
+        .filter((n) => n.trim())
+      matchNames = objStore.objs.map((obj, i) => {
+        const renameObj: RenameObj = {
+          src_name: obj.name,
+          new_name: newNames[i],
+        }
+        return renameObj
+      })
+    } else {
+      matchNames = []
     }
 
     setMatchNames(matchNames)
@@ -129,6 +143,11 @@ export const BatchRename = () => {
               {t("home.toolbar.sequential_renaming_desc")}
             </ModalHeader>
           </Show>
+          <Show when={type() === "3"}>
+            <ModalHeader>
+              {t("home.toolbar.text_editor_rename_desc")}
+            </ModalHeader>
+          </Show>
           <ModalBody>
             <RadioGroup
               defaultValue="1"
@@ -137,44 +156,76 @@ export const BatchRename = () => {
                 setType(event)
                 if (event === "1") {
                   setNewNameType("string")
+                  setSrcName("")
+                  setNewName("")
                 } else if (event === "2") {
                   setNewNameType("number")
+                  setSrcName("")
+                  setNewName("")
+                } else if (event === "3") {
+                  // 设置输入框为 文件名列表
+                  const srcNames = objStore.objs
+                    .filter((obj) => obj.name)
+                    .map((obj) => obj.name)
+                  const srcNamesStr = srcNames.join("\n")
+                  setSrcName(srcNamesStr)
+                  setNewName(srcNamesStr)
                 }
               }}
             >
               <HStack spacing="$4">
                 <Radio value="1">{t("home.toolbar.regex_rename")}</Radio>
                 <Radio value="2">{t("home.toolbar.sequential_renaming")}</Radio>
+                <Radio value="3">{t("home.toolbar.text_editor_rename")}</Radio>
               </HStack>
             </RadioGroup>
-            <VStack spacing="$2">
-              <Input
-                id="modal-input1" // Update id to "modal-input1" for first input
-                type={"string"}
-                value={srcName()} // Update value to value1 for first input
-                onInput={(e) => {
-                  setSrcName(e.currentTarget.value)
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    submit()
-                  }
-                }}
-              />
-              <Input
-                id="modal-input2" // Add second input with id "modal-input2"
-                type={newNameType()}
-                value={newName()} // Bind value to value2 for second input
-                onInput={(e) => {
-                  setNewName(e.currentTarget.value)
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    submit()
-                  }
-                }}
-              />
-            </VStack>
+            <Show when={type() === "1" || type() === "2"}>
+              <VStack spacing="$2">
+                <Input
+                  id="modal-input1" // Update id to "modal-input1" for first input
+                  type={"string"}
+                  value={srcName()} // Update value to value1 for first input
+                  onInput={(e) => {
+                    setSrcName(e.currentTarget.value)
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      submit()
+                    }
+                  }}
+                />
+                <Input
+                  id="modal-input2" // Add second input with id "modal-input2"
+                  type={newNameType()}
+                  value={newName()} // Bind value to value2 for second input
+                  onInput={(e) => {
+                    setNewName(e.currentTarget.value)
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      submit()
+                    }
+                  }}
+                />
+              </VStack>
+            </Show>
+            <Show when={type() === "3"}>
+              <VStack spacing="$2">
+                <Textarea
+                  id="modal-input1"
+                  value={newName()}
+                  onInput={(e) => {
+                    setNewName(e.currentTarget.value)
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      submit()
+                    }
+                  }}
+                  style={{ height: "200px" }}
+                />
+              </VStack>
+            </Show>
           </ModalBody>
           <ModalFooter display="flex" gap="$2">
             <Button
