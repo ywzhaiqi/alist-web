@@ -299,7 +299,10 @@ export const BatchRename = () => {
             <Button
               loading={loading()}
               onClick={async () => {
-                const resp = await ok(pathname(), matchNames())
+                const names = matchNames().filter(
+                  (obj) => obj.new_name && obj.new_name !== obj.src_name,
+                )
+                const resp = await ok(pathname(), names)
                 handleRespWithNotifySuccess(resp, () => {
                   setMatchNames([])
                   setSrcName("")
