@@ -63,7 +63,7 @@
     "aplayer": "^1.10.1",
     "artplayer": "^4.6.2",
     "artplayer-plugin-danmuku": "^4.4.11",
-    "axios": "^1.0.0",
+    "axios": "^1.6.7",
     "clsx": "^2.0.0",
     "copy-to-clipboard": "^3.3.2",
     "flv.js": "^1.6.2",
