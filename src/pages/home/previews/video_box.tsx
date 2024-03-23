@@ -65,6 +65,25 @@ export const players: {
 export const playersFiltered = players.filter((p) =>
   !isMac ? p.os !== "mac" : true,
 )
+export const AutoHeightPlugin = (player: Artplayer) => {
+  const { $container, $video } = player.template
+  const $videoBox = $container.parentElement!
+
+  player.on("ready", () => {
+    const offsetBottom = "1.75rem" // position bottom of "More" button + padding
+    $videoBox.style.maxHeight = `calc(100vh - ${$videoBox.offsetTop}px - ${offsetBottom})`
+    $videoBox.style.minHeight = "320px" // min width of mobie phone
+    player.autoHeight()
+  })
+  player.on("resize", () => {
+    player.autoHeight()
+  })
+  player.on("error", () => {
+    if ($video.style.height) return
+    $container.style.height = "60vh"
+    $video.style.height = "100%"
+  })
+}
 
 export const VideoBox = (props: {
   children: JSXElement

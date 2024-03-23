@@ -12,6 +12,7 @@ import {
 import { OrderBy } from "~/store"
 import { Col, cols, ListItem } from "./ListItem"
 import { useLocalStorage } from "solidjs-use"
+import { useSelectWithMouse } from "./helper"
 
 const ListLayout = () => {
   const t = useT()
@@ -52,8 +53,17 @@ const ListLayout = () => {
   const orderSymbol = (col: Col) => {
     return state().orderBy == col.name ? (state().reverse ? "↑" : "↓") : ""
   }
+  const { isMouseSupported, registerSelectContainer, captureContentMenu } =
+    useSelectWithMouse()
+  registerSelectContainer()
   return (
-    <VStack class="list" w="$full" spacing="$1">
+    <VStack
+      oncapture:contextmenu={captureContentMenu}
+      classList={{ "viselect-container": isMouseSupported() }}
+      class="list"
+      w="$full"
+      spacing="$1"
+    >
       <HStack class="title" w="$full" p="$2">
         <HStack w={cols[0].w} spacing="$1">
           <Show when={checkboxOpen()}>
